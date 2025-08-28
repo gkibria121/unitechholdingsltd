@@ -1,0 +1,43 @@
+{
+  "name": "real-estate-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.1.10",
+    "@heroicons/react": "^2.1.5",
+    "@radix-ui/react-accordion": "^1.2.1",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-scroll-area": "^1.2.1",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.1",
+    "axios": "^1.7.7",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "embla-carousel-react": "^8.5.1",
+    "framer-motion": "^11.11.9",
+    "js-cookie": "^3.0.5",
+    "lucide-react": "^0.456.0",
+    "next": "15.0.1",
+    "next-auth": "^4.24.10",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "sweetalert2": "^11.21.2",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "22.9.0",
+    "@types/react": "18.3.12",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.1",
+    "postcss": "^8",
+    "shadcn-ui": "^0.9.3",
+    "tailwindcss": "^3.4.1"
+  }
+}

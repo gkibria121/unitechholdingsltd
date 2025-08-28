@@ -1,0 +1,45 @@
+services:
+  web:
+    build:
+      context: ./backend
+      dockerfile: ./docker/production/nginx/Dockerfile
+    volumes:
+      # -----------------------------------------------------------
+      - laravel-storage-production:/var/www/storage
+      - laravel-public-assets:/var/www/public/build
+    networks:
+      - laravel-production
+    ports:
+      # -----------------------------------------------------------
+      - "${NGINX_PORT:-8090}:80"
+    depends_on:
+      - php-fpm
+    restart: unless-stopped
+
+  php-fpm:
+    build:
+      context: ./backend
+      dockerfile: ./docker/common/php-fpm/Dockerfile
+      target: production
+    volumes:
+      - laravel-public-assets:/var/www/public/build
+      - laravel-storage-production:/var/www/storage
+    env_file:
+      - ./backend/.env
+    networks:
+      - laravel-production
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+
+volumes:
+  mongodb-data:
+  laravel-storage-production:
+  laravel-public-assets:
+networks:
+  laravel-production:
+    driver: bridge
