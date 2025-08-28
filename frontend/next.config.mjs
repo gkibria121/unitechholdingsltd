@@ -50,6 +50,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "unitech.jumpintojob.com",
       },
+      {
+        protocol: "https",
+        hostname: "api.unitechholdingsltd.com",
+      },
     ],
   },
 };
