@@ -38,10 +38,21 @@ const nextConfig = {
       },
 
       {
+        protocol: "http",
+        hostname: "unitechholdingsltd.com",
+      },
+      {
         protocol: "https",
         hostname: "unitechholdingsltd.com",
       },
-
+      {
+        protocol: "http",
+        hostname: "www.unitechholdingsltd.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.unitechholdingsltd.com",
+      },
       {
         protocol: "http",
         hostname: "unitech.jumpintojob.com",
@@ -49,6 +60,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "unitech.jumpintojob.com",
+      },
+      {
+        protocol: "http",
+        hostname: "api.unitechholdingsltd.com",
       },
       {
         protocol: "https",
