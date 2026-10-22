@@ -13,7 +13,7 @@ import './globals.css';
 import Cookies from 'js-cookie'; 
 import Head from 'next/head';
 export default function RootLayout({ children }) {
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
     const [user, setUser] = useState(false);
@@ -22,6 +22,12 @@ export default function RootLayout({ children }) {
 
     useEffect(() => {
         setUser(Cookies.get('user') ? JSON.parse(Cookies.get('user')) : false);
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            setDarkMode(false);
+        } else {
+            setDarkMode(true);
+        }
     }, []);
 
     useEffect(() => {
@@ -31,6 +37,14 @@ export default function RootLayout({ children }) {
             document.documentElement.classList.remove('dark');
         }
     }, [darkMode]);
+
+    const toggleDarkMode = () => {
+        setDarkMode((prev) => {
+            const nextMode = !prev;
+            localStorage.setItem('theme', nextMode ? 'dark' : 'light');
+            return nextMode;
+        });
+    };
 
     const handleLogout = async () => {
         Cookies.remove('user');
@@ -54,7 +68,27 @@ export default function RootLayout({ children }) {
       }
     
     return (
-        <html lang="en" className="text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px]">
+        <html
+            lang="en"
+            className={`text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px] ${darkMode ? 'dark' : ''}`}
+            suppressHydrationWarning
+        >
+            <head>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            try {
+                                const theme = localStorage.getItem('theme');
+                                if (theme === 'light') {
+                                    document.documentElement.classList.remove('dark');
+                                } else {
+                                    document.documentElement.classList.add('dark');
+                                }
+                            } catch (_) {}
+                        `,
+                    }}
+                />
+            </head>
             <body className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
                 <PropertyProvider>
                     <header className="bg-white dark:bg-gray-800 shadow-md relative">
@@ -141,7 +175,7 @@ export default function RootLayout({ children }) {
                                         )}
                                     </button>
                                     <button
-                                        onClick={() => setDarkMode(!darkMode)}
+                                        onClick={toggleDarkMode}
                                         className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white"
                                         aria-label="Toggle dark mode"
                                     >
