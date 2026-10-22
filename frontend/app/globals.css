@@ -69,4 +69,13 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  select {
+    @apply bg-background text-foreground;
+  }
+  select option {
+    @apply bg-background text-foreground;
+  }
+  ::selection {
+    @apply bg-blue-600 text-white;
+  }
 }

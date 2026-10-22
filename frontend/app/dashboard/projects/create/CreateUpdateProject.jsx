@@ -322,10 +322,14 @@ export default function CreateUpdateProject({props,mode='create'}) {
                       name="status"
                       value={project.status}
                       onChange={handleProjectChange}
-                      className="mt-1 block w-full  p-2   rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="mt-1 block w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white text-gray-900 dark:bg-gray-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     >
                       {PROJECT_STATUSES.map((status) => (
-                        <option key={status.value} value={status.value}>
+                        <option
+                          key={status.value}
+                          value={status.value}
+                          className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
+                        >
                           {status.label}
                         </option>
                       ))}
