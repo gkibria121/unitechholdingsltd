@@ -85,30 +85,44 @@ export default function CreateUpdateProject({props,mode='create'}) {
       return;
     }
 
-    const propertyData = {
-      ...project, 
-      iframe: project.iframe.match(/src="([^"]+)"/) ? project.iframe.match(/src="([^"]+)"/)[1] : project.iframe,
-    };
     if (!validate()) {
       return;
     }
-    if(mode=='create'){
-        uploadProject(propertyData)
-    }
-    else{
-        updateProject(propertyData)
-    }
 
-    
+    const iframeCode = project.iframe || "";
+    const extractedSrc = iframeCode.match(/src=["']([^"']+)["']/)?.[1] || (iframeCode.startsWith("http") ? iframeCode : "");
+
+    const propertyData = {
+      ...project,
+      iframe: iframeCode,
+      iframeSrc: extractedSrc,
+      details: PROPERTY_DETAILS.map((detail) => ({
+        ...detail,
+        value: propertyDetails[detail.name] || "",
+      })),
+    };
+
+    if (mode === 'create') {
+      uploadProject(propertyData);
+    } else {
+      updateProject(propertyData);
+    }
   };
   const [property, setProperty] = useState(project);
 
   useEffect(() => {
+    const iframeCode = project.iframe || "";
+    const extractedSrc = iframeCode.match(/src=["']([^"']+)["']/)?.[1] || iframeCode;
     setProperty({
       ...project,
-      iframe: project.iframe?.match(/src="([^"]+)"/) ? project.iframe.match(/src="([^"]+)"/)[1] : project.iframe,
+      iframe: extractedSrc,
+      iframeSrc: extractedSrc,
+      details: PROPERTY_DETAILS.map((detail) => ({
+        ...detail,
+        value: propertyDetails[detail.name] || "",
+      })),
     });
-  }, [project]);
+  }, [project, propertyDetails]);
 
   // Utility function for filename shortening
   const shortenFileName = (fileName, maxLength = 20) => {
@@ -171,8 +185,9 @@ export default function CreateUpdateProject({props,mode='create'}) {
 
   const validate = () => {
     let flag = true;
-    if (!project.iframe.match(/(:?src="([^"]+)")|(www.google.com\/maps\/embed)/)) {
-      setErrors((prev) => ({ ...prev, iframe: "Please insert a valid google embed link" }));
+    const iframeVal = project.iframe || "";
+    if (!iframeVal.match(/src=["']([^"']+)["']/) && !iframeVal.includes("google.com/maps/embed")) {
+      setErrors((prev) => ({ ...prev, iframe: "Please insert a valid Google Map iframe embed code or link" }));
       flag = false;
     } else {
       setErrors((prev) => ({ ...prev, iframe: null }));
@@ -465,9 +480,17 @@ export default function CreateUpdateProject({props,mode='create'}) {
                 </div>
 
                 <div>
-                  <Label htmlFor="iframe">Google Map Iframe Embed Link</Label>
-                  <Input id="iframe" name="iframe" value={project.iframe} onChange={handleProjectChange} required />
-                  {errors.iframe ? <div style={{ color: "red" }}>{errors.iframe}</div> : ""}
+                  <Label htmlFor="iframe">Google Map Embed Iframe</Label>
+                  <Textarea
+                    id="iframe"
+                    name="iframe"
+                    value={project.iframe || ""}
+                    onChange={handleProjectChange}
+                    placeholder='<iframe src="https://www.google.com/maps/embed?..." ...></iframe>'
+                    rows={3}
+                    required
+                  />
+                  {errors.iframe ? <div className="text-red-500 text-sm mt-1">{errors.iframe}</div> : ""}
                 </div>
               </CardContent>
             </Card>

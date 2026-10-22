@@ -32,7 +32,8 @@ class UpdateProjectRequest extends FormRequest
             'plans' => 'array',
             'features' => 'array',
             'images' => 'array',
-            'iframeSrc' => 'string'
+            'iframe' => 'nullable|string',
+            'iframeSrc' => 'nullable|string'
 
         ];
     }

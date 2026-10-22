@@ -90,13 +90,15 @@ export const PropertyProvider = ({ children }) => {
     status: "upcoming",
     details: [],
   };
-  const INITIAL_PROPERTY_DETAILS ={
+  const INITIAL_PROPERTY_DETAILS = {
     address: "",
     landArea: "",
     noOfFloors: "",
-    apartment: "",
+    floors: "",
     apartmentSize: "",
-  }
+    frontRoad: "",
+    sideRoad: "",
+  };
   
 
   const [properties, setProperties] = useState([]);
